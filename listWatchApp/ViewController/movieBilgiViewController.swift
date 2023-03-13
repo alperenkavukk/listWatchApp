@@ -33,12 +33,15 @@ extension UIImageView {
 
 class movieBilgiViewController: UIViewController {
 
+    @IBOutlet weak var label: UILabel!
     
     @IBOutlet weak var infoTextView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var reviewTextview: UITextView!
     
     var film:Result?
     var api = aramaViewController()
+    var reviewArray = [Any]()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -125,10 +128,60 @@ class movieBilgiViewController: UIViewController {
     
     func movioInfo(){
         infoTextView.text = film?.overview
+        let populartiyDouble = film?.voteAverage
+        //label.text = String(populartiy!) ?? ""
+        let imagee = UIImage(named: "yildiz")
+        let populartiyString = String(format: "%.1f", populartiyDouble!)
+        
+        let imageview = UIImageView(image: imagee)
+        let attributedString = NSMutableAttributedString(string: " ")
+        let textAttackhment = NSTextAttachment()
+        textAttackhment.image = imagee
+        let attachmentString = NSAttributedString(attachment: textAttackhment)
+        attributedString.append(attachmentString)
+        let doubleAttributedString = NSAttributedString(string: " " + populartiyString)
+        attributedString.append(doubleAttributedString)
+        label.attributedText = attributedString
+        label.addSubview(imageview)
+        imageview.translatesAutoresizingMaskIntoConstraints = false
+        imageview.leadingAnchor.constraint(equalTo: label.leadingAnchor).isActive = true
+        imageview.topAnchor.constraint(equalTo: label.topAnchor).isActive = true
+        imageview.bottomAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
+        imageview.sizeToFit()
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         title = film?.originalTitle
         let imgurlString = "https://image.tmdb.org/t/p/w500/"+((film?.posterPath)!)
         let url = URL(string: imgurlString)
         imageView.downloaded(from: url! )
+        let reviewId = film?.id
+        let  api_key = "d8cc792aeb02fbe6d958a6c58a962a59"
+        let reviewUrl = "https://api.themoviedb.org/3/movie/\(reviewId)/reviews?api_key=\(api_key)"
+       // reviewTextview.text = reviewUrl
+        let urlReview = URL(string: reviewUrl)!
+        let task = URLSession.shared.dataTask(with: urlReview) { [self] data , response, error in
+            guard let data = data else {
+                return
+            }
+            guard let reviewData = try? JSONDecoder().decode(movie.self, from: data) else {
+                return
+            }
+            self.reviewArray = reviewData.results
+            
+        }
+        task.resume()
+
+        
     }
     
     

@@ -270,13 +270,28 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="d6a-FO-f0G">
-                                <rect key="frame" x="20" y="421" width="374" height="344"/>
+                                <rect key="frame" x="20" y="406" width="374" height="296"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JFr-W9-Xvp">
+                                <rect key="frame" x="34" y="710" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSB-0L-qQ4">
+                                <rect key="frame" x="20" y="354" width="71" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jAr-bD-4oz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -287,11 +302,13 @@
                     <connections>
                         <outlet property="imageView" destination="Vv4-Cv-hAL" id="G34-tG-Lit"/>
                         <outlet property="infoTextView" destination="d6a-FO-f0G" id="job-lS-mKd"/>
+                        <outlet property="label" destination="CSB-0L-qQ4" id="kew-Bp-N2n"/>
+                        <outlet property="reviewTextview" destination="JFr-W9-Xvp" id="8hl-ei-kbM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aEI-vA-b5e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4850.7246376811599" y="-242.41071428571428"/>
+            <point key="canvasLocation" x="5228.985507246377" y="-243.08035714285714"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="4sQ-MR-vD8">
