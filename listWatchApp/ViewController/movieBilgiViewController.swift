@@ -63,16 +63,31 @@ class movieBilgiViewController: UIViewController {
         imageView.downloaded(from: url! )
         
         let db = Firestore.firestore()
-        var firestoreReference :DocumentReference? = nil
-        let user = ["imgUrl":  imgurl,"postedBy": Auth.auth().currentUser!.email!, "movieTitle": film!.originalTitle] as [String: Any]
-        firestoreReference = db.collection("Watch").addDocument(data: user, completion: { error in
-            if error != nil {
+        let watchRef = db.collection("Watch")
+        let query = watchRef.whereField("movieTitle", in: [title])
+        query.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                // Hata oluştu
+            } else if querySnapshot?.isEmpty == false {
+                // Veritabanında belirtilen alana sahip bir belge var
+                let alert = UIAlertController(title: "Error", message: "Bu Film listenize kayıtlıdır", preferredStyle: UIAlertController.Style.alert)
+                let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
+                alert.addAction(okButton)
+                self.present(alert, animated: true, completion: nil)
                 
-            }else
-            {
-                print("sucsses")
+            } else {
+                   watchRef.addDocument(data: ["movieTitle": self.film?.originalTitle ?? "Error", "imgUrl": imgurl, "postedBy": Auth.auth().currentUser?.email!]) { error in
+                    if let error = error {
+                        print("Hata oluştu: \(error.localizedDescription)")
+                    } else {
+                        print("Veri başarıyla eklendi.")
+                        
+                        
+                    }
+                }
             }
-        })
+        }
+        
     }
     
     @objc func saveLikeData(){
@@ -80,19 +95,27 @@ class movieBilgiViewController: UIViewController {
         let url = URL(string: imgurl)
         imageView.downloaded(from: url!)
         let db = Firestore.firestore()
-        let data = [
-            "title": film?.originalTitle,
-            "image": imgurl
-            
-        ]
-        db.collection("Like").addDocument(data: data) { error in
-            if let error = error
-            {
-                print("hata")
-            }
-            else
-            {
-                print("başarılı")
+        let watchRef = db.collection("Like")
+        let query = watchRef.whereField("movieTitle", in: [title])
+        query.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                // Hata oluştu
+            } else if querySnapshot?.isEmpty == false {
+                // Veritabanında belirtilen alana sahip bir belge var
+                let alert = UIAlertController(title: "Error", message: "Bu Film listenize kayıtlıdır", preferredStyle: UIAlertController.Style.alert)
+                let okButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
+                alert.addAction(okButton)
+                self.present(alert, animated: true, completion: nil)
+                
+            } else {
+                watchRef.addDocument(data: ["movieTitle": self.film?.originalTitle ?? "Error", "imgUrl": imgurl, "postedBy": Auth.auth().currentUser?.email!]) { error in
+                    if let error = error {
+                        print("Hata oluştu: \(error.localizedDescription)")
+                    } else {
+                        print("Veri başarıyla eklendi.")
+                        
+                    }
+                }
             }
         }
     }
