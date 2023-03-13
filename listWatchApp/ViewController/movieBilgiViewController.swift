@@ -129,35 +129,9 @@ class movieBilgiViewController: UIViewController {
     func movioInfo(){
         infoTextView.text = film?.overview
         let populartiyDouble = film?.voteAverage
-        //label.text = String(populartiy!) ?? ""
-        let imagee = UIImage(named: "yildiz")
-        let populartiyString = String(format: "%.1f", populartiyDouble!)
+        label.text = String(populartiyDouble!) ?? ""
         
-        let imageview = UIImageView(image: imagee)
-        let attributedString = NSMutableAttributedString(string: " ")
-        let textAttackhment = NSTextAttachment()
-        textAttackhment.image = imagee
-        let attachmentString = NSAttributedString(attachment: textAttackhment)
-        attributedString.append(attachmentString)
-        let doubleAttributedString = NSAttributedString(string: " " + populartiyString)
-        attributedString.append(doubleAttributedString)
-        label.attributedText = attributedString
-        label.addSubview(imageview)
-        imageview.translatesAutoresizingMaskIntoConstraints = false
-        imageview.leadingAnchor.constraint(equalTo: label.leadingAnchor).isActive = true
-        imageview.topAnchor.constraint(equalTo: label.topAnchor).isActive = true
-        imageview.bottomAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
-        imageview.sizeToFit()
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         
         
         title = film?.originalTitle
