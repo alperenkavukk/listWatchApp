@@ -26,8 +26,7 @@ class LikeViewController: UIViewController , UITableViewDataSource, UITableViewD
         tableView.register(likeTableViewCell.self, forCellReuseIdentifier: "cell")
           view.addSubview(tableView)
         tableView.reloadData()
-               
-              
+        
 
         
     }
