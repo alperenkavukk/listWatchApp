@@ -9,7 +9,8 @@ import UIKit
 import FirebaseFirestore
 import FirebaseAuth
 import AVKit
-import Alamofire
+import AVFoundation
+
 
 extension UIImageView {
     func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFit) {
@@ -33,13 +34,15 @@ extension UIImageView {
 }
 
 
-class movieBilgiViewController: UIViewController {
+class movieBilgiViewController: UIViewController , AVPlayerViewControllerDelegate{
 
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var infoTextView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
     var video:videoPlay?
     var player : AVPlayer?
+    var playerViewController: AVPlayerViewController?
+    
     var film:Result?
     var api = aramaViewController()
     
@@ -47,10 +50,10 @@ class movieBilgiViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
+        playerViewController?.delegate = self
         configureItems()
         movioInfo()
-
+        
         
     }
     
@@ -64,19 +67,64 @@ class movieBilgiViewController: UIViewController {
     
     
     @IBAction func buttonVideoClicked(_ sender: Any) {
-        let movieId = film!.id
-        let videoURL = URL(string: "https:/api.themoviedb.org/3/movie/\(movieId)?api_key=d8cc792aeb02fbe6d958a6c58a962a59&append_to_response=videos")
-        player = AVPlayer(url: videoURL!)
+        
+        //film!.id
+        //505642
+        let movieId = 505642
+        let apiKey = "d8cc792aeb02fbe6d958a6c58a962a59"
+        let urlString = "https://api.themoviedb.org/3/movie/\(movieId)?api_key=\(apiKey)&append_to_response=videos"
+        guard let url = URL(string: urlString) else {
+            print("IGeçerli URL")
+                       return
+        }
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if error != nil {
+                print("Error")
+            } else {
+                if let content = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: content, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
+                        
+                        if let videos = json!["videos"] as? [String:Any] {
+                            if let results = videos["results"] as? [[String:Any]] {
+                                if let key = results[0]["key"] as? String {
+                                    
+                                    DispatchQueue.main.async {
+                                        let videoURL = URL(string: "https://www.youtube.com/watch?v=\(key)")
+                                        self.player = AVPlayer(url: videoURL!)
+                                        let playerViewController = AVPlayerViewController()
+                                        self.playerViewController?.player = self.player
+                                        self.present(playerViewController, animated: true ){
+                                            self.player?.play()
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        }
+                        
+                    } catch {
+                        print("Error")
+                    }
+                }
+            }
+        }
+
+        task.resume()
+        
+        /*player = AVPlayer(url: videoURL!)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
         present(playerViewController, animated: true ){
             self.player?.play()
-        }
-    
+        }*/
+        
     }
     
 
-    
+    func playerViewControllerDidStartPictureInPicture(_ playerViewController: AVPlayerViewController) {
+        player?.play()
+    }
     
     
     
