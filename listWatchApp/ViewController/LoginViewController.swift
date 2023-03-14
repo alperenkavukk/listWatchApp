@@ -16,7 +16,9 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailText: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        passwordText.isSecureTextEntry = true
+        passwordText.textContentType = .password
         // Do any additional setup after loading the view.
     }
     
