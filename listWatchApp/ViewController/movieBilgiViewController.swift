@@ -12,6 +12,7 @@ import AVKit
 import AVFoundation
 
 
+
 extension UIImageView {
     func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFit) {
         contentMode = mode
@@ -34,15 +35,16 @@ extension UIImageView {
 }
 
 
-class movieBilgiViewController: UIViewController , AVPlayerViewControllerDelegate{
+class movieBilgiViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var infoTextView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
+    
+    
     var video:videoPlay?
     var player : AVPlayer?
     var playerViewController: AVPlayerViewController?
-    
     var film:Result?
     var api = aramaViewController()
     
@@ -50,7 +52,7 @@ class movieBilgiViewController: UIViewController , AVPlayerViewControllerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        playerViewController?.delegate = self
+        
         configureItems()
         movioInfo()
         
@@ -93,10 +95,15 @@ class movieBilgiViewController: UIViewController , AVPlayerViewControllerDelegat
                                         let videoURL = URL(string: "https://www.youtube.com/watch?v=\(key)")
                                         self.player = AVPlayer(url: videoURL!)
                                         let playerViewController = AVPlayerViewController()
-                                        self.playerViewController?.player = self.player
-                                        self.present(playerViewController, animated: true ){
+                                        playerViewController.player = self.player
+                                        self.present(playerViewController, animated: true) {
                                             self.player?.play()
                                         }
+                                        if let playerLayer = playerViewController.view.layer as? AVPlayerLayer {
+                                            playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                                            playerLayer.frame = playerViewController.view.bounds
+                                        }
+                                        self.playerViewController = playerViewController
                                     }
                                     
                                 }
@@ -122,11 +129,6 @@ class movieBilgiViewController: UIViewController , AVPlayerViewControllerDelegat
     }
     
 
-    func playerViewControllerDidStartPictureInPicture(_ playerViewController: AVPlayerViewController) {
-        player?.play()
-    }
-    
-    
     
     
     @objc func saveWatchData(){
@@ -162,7 +164,40 @@ class movieBilgiViewController: UIViewController , AVPlayerViewControllerDelegat
         
     }
     
+    
+    
+    
     @objc func saveLikeData(){
+        if let barButtonItems = navigationItem.rightBarButtonItems {
+            for barButtonItem in barButtonItems {
+                if barButtonItem.image == UIImage(systemName: "heart") {
+                    let newButton = UIButton(type: .custom)
+                    newButton.setImage(UIImage(named: "redHeart"), for: .normal)
+                    newButton.addTarget(self, action: #selector(saveLikeData), for: .touchUpInside)
+                    newButton.frame = CGRect(x: -20, y: 0, width: 60, height: 24)
+                    newButton.imageView?.contentMode = .scaleAspectFit
+                    
+                    let buttonsView = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 24))
+
+                    if let watchButtonView = UIButton(type: .system) as? UIButton {
+                        watchButtonView.setImage(UIImage(systemName: "list.bullet.rectangle"), for: .normal)
+                        watchButtonView.addTarget(self, action: #selector(saveWatchData), for: .touchUpInside)
+                        watchButtonView.frame = CGRect(x: 25, y: 0, width: 60, height: 24)
+                        buttonsView.addSubview(watchButtonView)
+                    }
+
+                    buttonsView.addSubview(newButton)
+                    
+                    // Create a new bar button item with custom view
+                    let newList = [ UIBarButtonItem(customView: buttonsView)]
+                    
+                    navigationItem.rightBarButtonItems = newList
+                    newButton.isEnabled = true
+                }
+            }
+        }
+
+
         let imgurl = "https://image.tmdb.org/t/p/w500/"+((film?.posterPath)!)
         let url = URL(string: imgurl)
         imageView.downloaded(from: url!)

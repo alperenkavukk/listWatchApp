@@ -195,6 +195,9 @@
 				A23B79BF29B63F8A00BAA3FC /* XCRemoteSwiftPackageReference "Alamofire" */,
 				A255F93E29C0B7F9006D61FB /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				A255F94129C0B88B006D61FB /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
+				A255F94429C1FDB7006D61FB /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
+				A2399B6829C49CCE008BD4C1 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
+				A2399B6B29C49D5D008BD4C1 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 			);
 			productRefGroup = A20700B129B08B2200EC4104 /* Products */;
 			projectDirPath = "";
@@ -500,6 +503,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A2399B6829C49CCE008BD4C1 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		A2399B6B29C49D5D008BD4C1 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		A23B79BF29B63F8A00BAA3FC /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -517,6 +536,14 @@
 			};
 		};
 		A255F94129C0B88B006D61FB /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		A255F94429C1FDB7006D61FB /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit.git";
 			requirement = {
