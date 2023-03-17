@@ -25,10 +25,30 @@ class LikeViewController: UIViewController , UITableViewDataSource, UITableViewD
         tableView.dataSource = self
         tableView.register(likeTableViewCell.self, forCellReuseIdentifier: "cell")
           view.addSubview(tableView)
-        tableView.reloadData()
+        
         
 
         
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+            let db = Firestore.firestore()
+            let documentıd = self.items[indexPath.row].documentId
+            db.collection("Like").document(documentıd).delete() {
+                    error in
+                    if let error = error {
+                        print("Hata: \(error)")
+                    }
+                    else
+                    {
+                        print("Başarıyla silindi.")
+                        self.items.remove(at: indexPath.row) // TableView'dan silme işlemi
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                        tableView.endUpdates()
+        }
+    }
+                
+    }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -52,26 +72,7 @@ class LikeViewController: UIViewController , UITableViewDataSource, UITableViewD
     
     
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-            if editingStyle == .delete {
-            let db = Firestore.firestore()
-            let documentıd = self.items[indexPath.row].documentId
-            db.collection("Like").document(documentıd).delete() {
-                    error in
-                    if let error = error {
-                        print("Hata: \(error)")
-                    }
-                    else
-                    {
-                        print("Başarıyla silindi.")
-                        self.items.remove(at: indexPath.row) // TableView'dan silme işlemi
-                        tableView.deleteRows(at: [indexPath], with: .automatic)
-                        tableView.endUpdates()
-        }
-    }
-                
-    }
-    }
+    
     
     
     
